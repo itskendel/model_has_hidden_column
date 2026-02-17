@@ -1,19 +1,8 @@
 import { useMemo, useState } from "react";
-// import { PageProps } from "@/types";
-
-
-interface Attachment {
-    id: number;
-    file_name: string;
-    file_type: string;
-    size: number;
-    uploaded_by: string;
-    created_at: string;
-}
 
 interface Props {
     columns: string[];
-    data: Attachment[];
+    data: Record<string, any>[];
 }
 
 export default function Index({ columns, data }: Props) {
@@ -26,23 +15,18 @@ export default function Index({ columns, data }: Props) {
         { key: "created_at", label: "Created At" },
     ];
 
-    // Client state (for optional toggle)
-    const [visibleColumns, setVisibleColumns] = useState(columns);
+    const [visibleColumns, setVisibleColumns] = useState<string[]>(columns);
 
     const filteredColumns = useMemo(() => {
         return allColumns.filter(col =>
-            visibleColumns.includes(col.key)
+            visibleColumns.some(vc => vc.split('.').pop() === col.key)
         );
     }, [visibleColumns]);
 
     return (
         <div className="p-6">
+            <h1 className="text-xl font-bold mb-4">Attachments</h1>
 
-            <h1 className="text-xl font-bold mb-4">
-                Attachments
-            </h1>
-
-            {/* Optional client toggle */}
             <div className="mb-4">
                 {columns.map(col => (
                     <label key={col} className="mr-4">
@@ -57,7 +41,7 @@ export default function Index({ columns, data }: Props) {
                                 );
                             }}
                         />
-                        <span className="ml-1">{col}</span>
+                        <span className="ml-1">{col.split('.').pop()}</span>
                     </label>
                 ))}
             </div>
@@ -73,11 +57,11 @@ export default function Index({ columns, data }: Props) {
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map(row => (
-                        <tr key={row.id}>
+                    {data.map((row, index) => (
+                        <tr key={index}>
                             {filteredColumns.map(col => (
                                 <td key={col.key} className="p-2 border">
-                                    {(row as any)[col.key]}
+                                    {row[col.key] ?? "-"}
                                 </td>
                             ))}
                         </tr>

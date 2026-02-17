@@ -11,7 +11,6 @@ class AttachmentController extends Controller
     public function index()
     {
         $columns = Attachment::visibleColumns();
-
         $data = Attachment::select($columns)->get();
 
         return Inertia::render('index', [
@@ -19,15 +18,4 @@ class AttachmentController extends Controller
             'data' => $data,
         ]);
     }
-
-    // public function apiIndex()
-    // {
-    //     $columns = Attachment::visibleColumns();
-    //     $data = Attachment::select($columns)->get();
-
-    //     return response()->json([
-    //         'columns' => $columns,
-    //         'data' => $data
-    //     ]);
-    // }
 }
