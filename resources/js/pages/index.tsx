@@ -8,8 +8,8 @@ interface Props {
 export default function Index({ columns, data }: Props) {
     const allColumns = [
         { key: "id", label: "ID" },
-        { key: "file_name", label: "File Name" },
-        { key: "file_type", label: "Type" },
+        { key: "name", label: "File Name" },
+        { key: "type", label: "Type" },
         { key: "size", label: "Size" },
         { key: "uploaded_by", label: "Uploaded By" },
         { key: "created_at", label: "Created At" },

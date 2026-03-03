@@ -10,11 +10,16 @@ class AttachmentController extends Controller
 {
     public function index()
     {
-        $columns = Attachment::visibleColumns();
-        $data = Attachment::select($columns)->get();
+        $visible_controller = new VisibleColumnController;
+        $visible_columns = $visible_controller->get_visible_column('Attachment');
+
+        $data = Attachment::get();
+
+        // return $data;
+
 
         return Inertia::render('index', [
-            'columns' => $columns,
+            'columns' => $visible_columns,
             'data' => $data,
         ]);
     }
